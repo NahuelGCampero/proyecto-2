@@ -7,8 +7,12 @@
     <title>Pagina de Contacto</title>
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Antonio&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Antonio:wght@100;400;700&display=swap"
       rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
     <link rel="stylesheet" href="./styles/style-contact-page.css" />
   </head>
@@ -16,35 +20,95 @@
     <main>
       <div class="container">
         <div class="form">
-          <div class="contact-info"></div>
+          <div class="contact-info">
+            <h3 class="title">Nos importa saber tu opinion</h3>
+            <p class="text">
+              En Songify nos gusta mantenernos conectados con ustedes para
+              seguir mejorando constantemente nuestra plataforma, si tenes algun
+              comentario, consulta, propuesta o recomendacion con gusto te
+              leemos y te respondemos a la brevedad. <br />
+              Conectate con nosotros!
+            </p>
+            <div class="info">
+              <div class="information">
+                <img
+                  src="./assets/punto-de-encuentro.png"
+                  class="icon"
+                  alt=""
+                />
+                <p>25 de Mayo, 570, S.M. Tucuman, Tucuman</p>
+              </div>
+              <div class="information">
+                <img src="./assets/correo.png" class="icon" alt="" />
+                <p>info@songify.com</p>
+              </div>
+              <div class="information">
+                <img src="./assets/llamada.png" class="icon" alt="" />
+                <p>+54 381 1111111</p>
+              </div>
+            </div>
+            <div class="social-media">
+              <p>Nuestras redes</p>
+              <div class="social-icon">
+                <a href="#">
+                  <i class="fa fa-facebook-official"></i>
+                </a>
+                <a href="#">
+                  <i class="fa fa-twitter"></i>
+                </a>
+                <a href="#">
+                  <i class="fa fa-instagram"></i>
+                </a>
+                <a href="#">
+                  <i class="fa fa-linkedin"></i>
+                </a>
+              </div>
+            </div>
+          </div>
 
           <div class="contact-form">
-            <form action="contact-page.html">
-              <h3 class="tittle">Contactanos</h3>
+            <form action="contact-page.html" id="contact-form">
+              <h3 class="title">Contactanos</h3>
               <div class="input-container">
-                <input type="text" name="name" class="input" />
+                <input type="text" name="name" class="input" id="name-cont" />
                 <label for="name">Nombre</label>
+                <span>Nombre</span>
               </div>
               <div class="input-container">
-                <input type="email" name="email" class="input" />
+                <input
+                  type="email"
+                  name="email"
+                  class="input"
+                  id="email-cont"
+                />
                 <label for="name">Email</label>
+                <span>Email</span>
               </div>
               <div class="input-container">
-                <input type="tel" name="phone" class="input" />
+                <input type="tel" name="phone" class="input" id="phone-cont" />
                 <label for="name">Telefono</label>
+                <span>Telefono</span>
               </div>
               <div class="input-container">
                 <textarea
                   name="message"
-                  class="input-container textarea"
+                  class="input textarea"
+                  id="message-cont"
                 ></textarea>
                 <label for="name">Mensaje</label>
+                <span>Mensaje</span>
               </div>
-              <input type="submit" value="Send" class="btn" />
+              <input
+                type="submit"
+                value="Enviar"
+                class="btn"
+                id="enviar-form"
+              />
             </form>
           </div>
         </div>
       </div>
     </main>
+    <script src="./js/validaciones.js"></script>
   </body>
 </html>
