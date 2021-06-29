@@ -7,9 +7,9 @@ class User {
 
   static redirectUser() {
     if (this.role === "administrator") {
-      window.location.href = "#";
+      window.location.href = "admin-page.html";
     } else {
-      window.location.href = "#";
+      window.location.href = "index.html";
     }
   }
 }
@@ -61,3 +61,20 @@ const userType2 = new CommonUser("User", "user", 6789);
       BTN_FORM_SELECTOR.disabled = false;
     }
   }
+
+    const FORM_SELECTOR = document.querySelector("#song-form");
+    FORM_SELECTOR.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const image = document.querySelector("#songImage").value;
+      const title = document.querySelector("#songTtile").value;
+      const duration = document.querySelector("#songDuration").value;
+      const album = document.querySelector("#songAlbum").value;
+      const artist = document.querySelector("#songArtist").value;
+      const category = document.querySelector("#songCategory").value;
+
+      const song = new Songs(image, title, duration, album, artist, category);
+
+      UI.addSongsToList(song);
+
+      Store.addSongToLS(song);
+    });
