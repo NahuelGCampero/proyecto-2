@@ -45,7 +45,7 @@ class Store {
     }
     return songs;
   }
-
+  
   static addSongToLS(song) {
     const songs = Store.getSongs();
     songs.push(song);
@@ -55,19 +55,27 @@ class Store {
 
   document.addEventListener("DOMContentLoaded", UI.displaySongs);
 
-const FORM_SELECTOR = document.querySelector("#song-form");
-FORM_SELECTOR.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const image = document.querySelector("#songImage").value;
-  const title = document.querySelector("#songTtile").value;
-  const duration = document.querySelector("#songDuration").value;
-  const album = document.querySelector("#songAlbum").value;
-  const artist = document.querySelector("#songArtist").value;
-  const category = document.querySelector("#songCategory").value;
 
-  const song = new Songs(image, title, duration, album, artist, category);
+let arraySong = JSON.parse(localStorage.getItem("songs"))
+const popSongs = arraySong.filter((song) => song.category === "Pop");
+const rockSongs = arraySong.filter((song) => song.category === "Rock");
+const punkSongs = arraySong.filter((song) => song.category === "Punk");
+const otherSongs = arraySong.filter((song) => song.category === "Otro");
 
-  UI.addSongsToList(song);
+function appendSongsByCategory(container, xArraySong) {
+  xArraySong.forEach((song) => {
+    songArticle = document.createElement("article");
+    songArticle.setAttribute("class", "mx-3 text-center");
+    songArticle.innerHTML = `
+    <img src="${song.image}" width="200px" height="200px" class="img-thumbnail">
+    <h5 class="song-card-tile mt-2">${song.title}</h5>
+    <p class="song-artist">${song.artist}</p>
+    `;
+    container.append(songArticle);
+  });
+}
 
-  Store.addSongToLS(song);
-});
+appendSongsByCategory(popSongsCardsId, popSongs);
+appendSongsByCategory(rockSongsCardId, rockSongs);
+appendSongsByCategory(punkSongsCardId, punkSongs);
+appendSongsByCategory(otherSongsCardId, otherSongs);
