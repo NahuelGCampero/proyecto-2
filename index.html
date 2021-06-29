@@ -20,7 +20,7 @@
   <body>
     <header>
     <nav class="navbar navbar-expand-lg navbar-dark navbarColor" id="test">
-      <a class="navbar-brand text-light" href="#">Songify</a>
+      <a class="navbar-brand text-light" href="index.html">Songify</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon navIconColor"></span>
       </button>
@@ -38,8 +38,8 @@
           </li>
         </ul>
           <div class="signIn-signUp-btn" id="signInAnSignUp">
-            <button class="btn my-2 my-sm-0 btn-primary" type="submit">Registrarse</button>
-            <button class="btn my-2 my-sm-0 btn-secondary" type="submit">Iniciar sesión</button>
+            <button class="btn my-2 my-sm-0 button-primary" type="submit">Registrarse</button>
+            <button class="btn my-2 my-sm-0 button-secondary" type="submit">Iniciar sesión</button>
           </div>
       </div>
     </nav>
@@ -66,6 +66,20 @@
         </div>
       </section>
     </header>
+    <div class="container">
+      <h2 class="song-categories my-3 pl-3">CATEGORÍAS</h2>
+      <h3 class="pop-category pl-3">Pop</h3>
+        <div class="pop-songs-cards d-flex flex-row" id="popSongsCardsId"></div>
+      <h3 class="rock-category pl-3">Rock</h3>
+        <div class="rock-songs-cards d-flex flex-row" id="rockSongsCardId"></div>
+      <h3 class="punk-category pl-3">Punk</h3>
+        <div class="punk-songs-cards d-flex flex-row" id="punkSongsCardId"></div>
+      <h3 class="other-category pl-3">Otros</h3>
+        <div class="other-songs-cards d-flex flex-row" id="otherSongsCardId"></div>
+      <h3 class="highlighted-category pl-3">Destacadas</h3>
+        <div class="highlighted-songs-cards d-flex flex-row" id="highlightedSongsCardId"></div>
+    </div>
+
 
   <script src="./js/app.js"></script>
   <script src="./js/login.js"></script>
