@@ -18,12 +18,18 @@ textarea {
   font-family: "Antonio", sans-serif;
 }
 
+body {
+  background-image: url(/assets/Aprende-a-crear-tu-propio-home-studio.jpg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .container {
   position: relative;
   width: 100%;
   min-height: 100vh;
   padding: 2rem;
-  background-color: #fafafa;
   overflow: hidden;
   display: flex;
   align-items: center;

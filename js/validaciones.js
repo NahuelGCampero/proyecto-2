@@ -37,6 +37,7 @@ function eventListener() {
   email.addEventListener("blur", validateForm);
   telefono.addEventListener("blur", validateForm);
   mensaje.addEventListener("blur", validateForm);
+  sendBtn.addEventListener("click", submitForm);
 }
 
 function startApp() {
@@ -45,6 +46,7 @@ function startApp() {
 
 function validateForm(e) {
   const error = document.querySelector("p.error");
+
   if (e.target.value.length > 0) {
     if (error) {
       error.remove();
@@ -78,11 +80,14 @@ function validateForm(e) {
 function showError(msg) {
   const errorMessage = document.createElement("p");
   errorMessage.textContent = msg;
+  errorMessage.classList.add("error", "mt-2");
   const errors = document.querySelectorAll(".error");
-  if (error.length === 0) {
+  if (errors.length === 0) {
     form.append(errorMessage);
   }
 }
+
+function submitForm() {}
 
 function resetForm() {
   form.reset();
