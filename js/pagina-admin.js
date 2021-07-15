@@ -28,6 +28,12 @@ class UI {
     <td>${song.album}</td>
     <td>${song.artist}</td>
     <td>${song.category}</td>
+    <td>
+    <span class="material-icons">
+      <i>delete</i>
+      <i>edit</i>
+    </span>
+    </td>
     `;
     SONGLIST_SELECTOR.append(row);
     //Añadir después de <td>${song.category}</td> botones para eliminar, destacar y editar canción
@@ -45,15 +51,39 @@ class Store {
     }
     return songs;
   }
-  
+
   static addSongToLS(song) {
     const songs = Store.getSongs();
     songs.push(song);
     localStorage.setItem("songs", JSON.stringify(songs));
   }
+
+  static deleteSong = (id) => {
+    let song = Store.getSongs();
+    song = song.filter((song) => song.id != id);
+    updateLs(song);
+  };
 }
 
-  document.addEventListener("DOMContentLoaded", UI.displaySongs);
+updateLs = (songs) => {
+  localStorage.setItem("songs", JSON.stringify(songs));
+  UI.addSongsToList()
+}
+
+document.addEventListener("DOMContentLoaded", UI.displaySongs);
+
+const tbody_selector = document.querySelector("#songList");
+
+tbody_selector.addEventListener("click", (e) => {
+  e.preventDefault();
+  if (e.target.innerHTML == "delete") {
+    if (e.target.innerHTML == "delete") {
+      const elementId = e.target.parentElement.parentElement.parentElement.id;
+      Store.deleteSong(elementId);
+    }
+  }
+});
+
 
 
 let arraySong = JSON.parse(localStorage.getItem("songs"))
