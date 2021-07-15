@@ -1,5 +1,5 @@
 class Songs {
-  constructor(image ,title, duration, album, artist, category) {
+  constructor(image ,title, duration, album, artist, category, highlightedSong) {
     this.id = Date.now();
     this.image = image;
     this.title = title;
@@ -7,13 +7,14 @@ class Songs {
     this.album = album;
     this.artist = artist;
     this.category = category;
+    this.highlightedSong = highlightedSong;
   }
 }
 
 class UI {
   static displaySongs() {
     const storedSongs = Store.getSongs();
-    storedSongs.forEach((song) => UI.addSongsToList(song)); //Recorre el array de canciones y las muestra en la pagina
+    storedSongs.forEach((song) => UI.addSongsToList(song));
   }
 
   static addSongsToList(song) {
@@ -59,9 +60,9 @@ class Store {
   }
 
   static deleteSong = (id) => {
-    let song = Store.getSongs();
-    song = song.filter((song) => song.id != id);
-    updateLs(song);
+    let songToDelete = Store.getSongs();
+    songToDelete = songToDelete.filter((song) => song.id != id);
+    updateLs(songToDelete);
   };
 }
 
@@ -83,30 +84,3 @@ tbody_selector.addEventListener("click", (e) => {
     }
   }
 });
-
-
-
-let arraySong = JSON.parse(localStorage.getItem("songs"))
-const popSongs = arraySong.filter((song) => song.category === "Pop");
-const rockSongs = arraySong.filter((song) => song.category === "Rock");
-const punkSongs = arraySong.filter((song) => song.category === "Punk");
-const otherSongs = arraySong.filter((song) => song.category === "Otro");
-
-function appendSongsByCategory(container, xArraySong) {
-  xArraySong.forEach((song) => {
-    songArticle = document.createElement("article");
-    songArticle.setAttribute("class", "mx-3 text-center");
-    songArticle.innerHTML = `
-    <div ${song.id}></div>
-    <img src="${song.image}" width="200px" height="200px" class="img-thumbnail">
-    <h5 class="song-card-tile mt-2">${song.title}</h5>
-    <p class="song-artist">${song.artist}</p>
-    `;
-    container.append(songArticle);
-  });
-}
-
-appendSongsByCategory(popSongsCardsId, popSongs);
-appendSongsByCategory(rockSongsCardId, rockSongs);
-appendSongsByCategory(punkSongsCardId, punkSongs);
-appendSongsByCategory(otherSongsCardId, otherSongs);

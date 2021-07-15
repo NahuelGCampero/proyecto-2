@@ -112,8 +112,9 @@ const userType2 = new CommonUser("User", "user", 6789);
       const album = document.querySelector("#songAlbum").value;
       const artist = document.querySelector("#songArtist").value;
       const category = document.querySelector("#songCategory").value;
+      const highlightedSong = document.querySelector("#songHighlighted").value;
 
-      const song = new Songs(image, title, duration, album, artist, category);
+      const song = new Songs(image, title, duration, album, artist, category, highlightedSong);
 
       UI.addSongsToList(song);
 
