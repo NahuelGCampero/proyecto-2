@@ -59,21 +59,25 @@ body {
 }
 
 .button-primary {
+  color: #212529;
   background-color: #ff4433;
   border: none;
 }
 
 .button-primary:hover {
+  color: #212529;
   background-color: #ff1f0a;
   border: none;
 }
 
 .button-secondary {
+  color: #212529;
   background-color: #F27166;
   border: none;
 }
 
 .button-secondary:hover {
+  color: #212529;
   background-color: #f05143;
   border: none;
 }

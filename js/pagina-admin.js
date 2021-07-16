@@ -1,5 +1,5 @@
 class Songs {
-  constructor(image ,title, duration, album, artist, category) {
+  constructor(image ,title, duration, album, artist, category, highlightedSong) {
     this.id = Date.now();
     this.image = image;
     this.title = title;
@@ -7,13 +7,14 @@ class Songs {
     this.album = album;
     this.artist = artist;
     this.category = category;
+    this.highlightedSong = highlightedSong;
   }
 }
 
 class UI {
   static displaySongs() {
     const storedSongs = Store.getSongs();
-    storedSongs.forEach((song) => UI.addSongsToList(song)); //Recorre el array de canciones y las muestra en la pagina
+    storedSongs.forEach((song) => UI.addSongsToList(song));
   }
 
   static addSongsToList(song) {
@@ -28,6 +29,12 @@ class UI {
     <td>${song.album}</td>
     <td>${song.artist}</td>
     <td>${song.category}</td>
+    <td>
+    <span class="material-icons">
+      <i>delete</i>
+      <i>edit</i>
+    </span>
+    </td>
     `;
     SONGLIST_SELECTOR.append(row);
     //Añadir después de <td>${song.category}</td> botones para eliminar, destacar y editar canción
@@ -45,37 +52,35 @@ class Store {
     }
     return songs;
   }
-  
+
   static addSongToLS(song) {
     const songs = Store.getSongs();
     songs.push(song);
     localStorage.setItem("songs", JSON.stringify(songs));
   }
+
+  static deleteSong = (id) => {
+    let songToDelete = Store.getSongs();
+    songToDelete = songToDelete.filter((song) => song.id != id);
+    updateLs(songToDelete);
+  };
 }
 
-  document.addEventListener("DOMContentLoaded", UI.displaySongs);
-
-
-let arraySong = JSON.parse(localStorage.getItem("songs"))
-const popSongs = arraySong.filter((song) => song.category === "Pop");
-const rockSongs = arraySong.filter((song) => song.category === "Rock");
-const punkSongs = arraySong.filter((song) => song.category === "Punk");
-const otherSongs = arraySong.filter((song) => song.category === "Otro");
-
-function appendSongsByCategory(container, xArraySong) {
-  xArraySong.forEach((song) => {
-    songArticle = document.createElement("article");
-    songArticle.setAttribute("class", "mx-3 text-center");
-    songArticle.innerHTML = `
-    <img src="${song.image}" width="200px" height="200px" class="img-thumbnail">
-    <h5 class="song-card-tile mt-2">${song.title}</h5>
-    <p class="song-artist">${song.artist}</p>
-    `;
-    container.append(songArticle);
-  });
+updateLs = (songs) => {
+  localStorage.setItem("songs", JSON.stringify(songs));
+  UI.addSongsToList()
 }
 
-appendSongsByCategory(popSongsCardsId, popSongs);
-appendSongsByCategory(rockSongsCardId, rockSongs);
-appendSongsByCategory(punkSongsCardId, punkSongs);
-appendSongsByCategory(otherSongsCardId, otherSongs);
+document.addEventListener("DOMContentLoaded", UI.displaySongs);
+
+const tbody_selector = document.querySelector("#songList");
+
+tbody_selector.addEventListener("click", (e) => {
+  e.preventDefault();
+  if (e.target.innerHTML == "delete") {
+    if (e.target.innerHTML == "delete") {
+      const elementId = e.target.parentElement.parentElement.parentElement.id;
+      Store.deleteSong(elementId);
+    }
+  }
+});
