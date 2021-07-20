@@ -180,6 +180,7 @@ const noUserNvabar = () => {
   }
 };
 
+<<<<<<< HEAD
 const checkUser = (isLogged, noUserNvabar, navbarWithUser) => {
   if (isLogged) {
     navbarWithUser(JSON.parse(localStorage.getItem("actualUser")));
@@ -192,6 +193,20 @@ const logOutUserFn = () => {
   localStorage.removeItem("actualUser");
   window.location.href = "index.html";
 };
+=======
+    const FORM_SELECTOR = document.querySelector("#song-form");
+    FORM_SELECTOR.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const image = document.querySelector("#songImage").value;
+      const title = document.querySelector("#songTtile").value;
+      const duration = document.querySelector("#songDuration").value;
+      const album = document.querySelector("#songAlbum").value;
+      const artist = document.querySelector("#songArtist").value;
+      const category = document.querySelector("#songCategory").value;
+      const highlightedSong = document.querySelector("#songHighlighted").value;
+
+      const song = new Songs(image, title, duration, album, artist, category, highlightedSong);
+>>>>>>> c65d7706ea89d9b1b55df2cc6c8eef019e501a19
 
 document.addEventListener("DOMContentLoaded", () => {
   const isUser = JSON.parse(localStorage.getItem("actualUser"));
