@@ -1,20 +1,30 @@
+let currentUser = localStorage.getItem("user");
+let userAtTheMoment = JSON.parse(localStorage.getItem("actualUser"));
+let isLogged = false;
+
 class User {
-  constructor(userName, role, password) {
+  constructor(userName, password, role) {
     this.userName = userName;
-    this.role = role;
     this.password = password;
+    this.role = role;
   }
 
   static redirectUser(userType) {
     const users = StoreUsers.getUsers();
-    users.find(
+    const actualUser = users.find(
       (user) =>
-        userInputField2.value === user.userName && //recordar cambiar los inputs
-        passwordInputField2.value === user.password
+        userNameInputLogin.value === user.userName &&
+        userPasswordInputLogin.value === user.password
     );
-    if (userType.userName === "Admin") {
+    localStorage.setItem("actualUser", JSON.stringify(actualUser));
+    checkUser(
+      JSON.parse(localStorage.getItem("actualUser")),
+      navbarWithUser,
+      noUserNvabar
+    );
+    if (userType.userName === "Administrator") {
       window.location.href = "admin-page.html";
-      sayHi;
+      checkUser(navbarWithUser);
     } else {
       window.location.href = "index.html";
     }
@@ -22,36 +32,17 @@ class User {
 }
 
 class Admin extends User {
-  constructor(userName, role, password) {
-    super(userName, role, password);
+  constructor(userName, password, role) {
+    super(userName, password, role);
   }
 }
-
-class CommonUser extends User {
-  constructor(userName, role, password) {
-    super(userName, role, password);
-  }
-}
-
-function sayHi(user) {
-  const ELEMENT_TO_REPLACE_SELECTOR = document.querySelector("#signInAnSignUp");
-  const NEW_ELEMENT = document.createElement("p");
-  NEW_ELEMENT.classList.add("class", "m-0", "text-white");
-  NEW_ELEMENT.textContent = `Hola, ${user.userName}`;
-  ELEMENT_TO_REPLACE_SELECTOR.parentNode.replaceChild(
-    NEW_ELEMENT,
-    ELEMENT_TO_REPLACE_SELECTOR
-  );
-}
-
-//sayHi(User.redirectUser);
 
 class StoreUsers {
   static getUsers() {
-   let users;
+    let users;
     if (localStorage.getItem("user") === null) {
       users = [];
-   } else {
+    } else {
       users = JSON.parse(localStorage.getItem("user"));
     }
     return users;
@@ -60,62 +51,150 @@ class StoreUsers {
   static addUserToLS(user) {
     const users = StoreUsers.getUsers();
     users.push(user);
-   localStorage.setItem("user", JSON.stringify(users));
+    localStorage.setItem("user", JSON.stringify(users));
   }
 }
 
-  //Agregar formulario de inicio de sesión. Capturar datos y llamar User.redirectUser(user)
-  //Agregar formulario de registro. Para añadir usuarios al LS
+const form_selector2 = document.querySelector("#loginForm");
+if (form_selector2) {
+  form_selector2.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const user = JSON.parse(localStorage.getItem("user"));
+    const userName = document.querySelector("#userNameInputLogin").value;
+    const password = document.querySelector("#userPasswordInputLogin").value;
 
-const userType = new Admin("Admin", "administrator", 12345);
-const userType2 = new CommonUser("User", "user", 6789);
+    const actualUser = user.find(
+      (user) =>
+      user.userName === userName &&
+      user.password === password
+    );
+    localStorage.setItem("actualUser", JSON.stringify(actualUser));
+    checkUser(actualUser, noUserNvabar, navbarWithUser);
+    User.redirectUser(user);
+  });
+}
 
+const form_selector = document.querySelector("#signupForm");
+if (form_selector) {
+  form_selector.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const userName = document.querySelector("#userNameInputsignup").value;
+    const password = document.querySelector("#userPasswordInputsignup").value;
 
+    const user = new User(userName, password);
 
-  const TITLE_SELECTOR = document.querySelector("#songTtile");
-  const DURATION_SELECTOR = document.querySelector("#songDuration");
-  const ALBUM_SELECTOR = document.querySelector("#songAlbum");
-  const ARTIST_SELECTOR = document.querySelector("#songArtist");
-  const CATEGORY_SELECTOR = document.querySelector("#songCategory");
-  const BTN_FORM_SELECTOR = document.querySelector("#btn-form-properties");
-  const HIGHLIGHT_SONG_SELECTOR = document.querySelector("#songHighlighted");
-  BTN_FORM_SELECTOR.disabled = true;
+    StoreUsers.addUserToLS(user);
+  });
+}
 
-  TITLE_SELECTOR.addEventListener("change", formSongValidations);
-  DURATION_SELECTOR.addEventListener("change", formSongValidations);
-  ALBUM_SELECTOR.addEventListener("change", formSongValidations);
-  ARTIST_SELECTOR.addEventListener("change", formSongValidations);
-  CATEGORY_SELECTOR.addEventListener("change", formSongValidations);
-  HIGHLIGHT_SONG_SELECTOR.addEventListener("change", formSongValidations);
+const navbarWithUser = (user) => {
+  const navbar_replecement = document.getElementById("navbarReplace");
+  const new_navbar_with_user = document.createElement("nav");
+  new_navbar_with_user.classList.add(
+    "class",
+    "navbar",
+    "fixed-top",
+    "navbar-expand-lg",
+    "navbar-dark",
+    "navbarColor"
+  );
+  new_navbar_with_user.id = "test";
+  new_navbar_with_user.innerHTML = `
+      <a class="navbar-brand text-light" href="index.html">Songify</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon navIconColor"></span>
+      </button>
 
-  function formSongValidations() {
-    if (
-      document.querySelector("#songTtile").value === "" ||
-      document.querySelector("#songDuration").value === "" ||
-      document.querySelector("#songAlbum").value === "" ||
-      document.querySelector("#songArtist").value === "" ||
-      document.querySelector("#songCategory").value === "" ||
-      document.querySelector("#songHighlighted").value === ""
-    ) {
-      BTN_FORM_SELECTOR.disabled = true;
-    } else {
-      BTN_FORM_SELECTOR.disabled = false;
-    }
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link text-light" href="index.html">Home</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="#">Sobre nosotros</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="contact-page.html">Contacto</a>
+          </li>
+        </ul>
+        <div class="dropdown">
+          <button class="btn button-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Hola, ${user.userName}
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="admin-page.html">Panel de admin.</a>
+            <button class="dropdown-item" id="logOutUserFn" onclick="logOutUserFn()">Cerrar sesión</button>
+          </div>
+        </div>
+      </div>
+      `;
+  if (navbar_replecement) {
+    navbar_replecement.parentElement.replaceChild(
+      new_navbar_with_user,
+      navbar_replecement
+    );
   }
+};
 
-    const FORM_SELECTOR = document.querySelector("#song-form");
-    FORM_SELECTOR.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const image = document.querySelector("#songImage").value;
-      const title = document.querySelector("#songTtile").value;
-      const duration = document.querySelector("#songDuration").value;
-      const album = document.querySelector("#songAlbum").value;
-      const artist = document.querySelector("#songArtist").value;
-      const category = document.querySelector("#songCategory").value;
+const noUserNvabar = () => {
+  const no_user_navbar_replecement = document.getElementById("navbarReplace");
+  const no_user_navbar = document.createElement("nav");
+  no_user_navbar.classList.add(
+    "class",
+    "navbar",
+    "fixed-top",
+    "navbar-expand-lg",
+    "navbar-dark",
+    "navbarColor"
+  );
+  no_user_navbar.id = "test";
+  no_user_navbar.innerHTML = `
+      <a class="navbar-brand text-light" href="index.html">Songify</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon navIconColor"></span>
+      </button>
 
-      const song = new Songs(image, title, duration, album, artist, category);
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link text-light" href="index.html">Home</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="#">Sobre nosotros</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="contact-page.html">Contacto</a>
+          </li>
+        </ul>
+          <div class="signIn-signUp-btn" id="signInAnSignUp">
+            <a class="btn my-2 my-sm-0 button-primary" href="signup-page.html">Registrarse</a>
+            <a class="btn my-2 my-sm-0 button-secondary" href="login.html">Iniciar sesión</a>
+          </div>
+      </div>
+      `;
+  if (no_user_navbar_replecement) {
+    no_user_navbar_replecement.parentElement.replaceChild(
+      no_user_navbar,
+      no_user_navbar_replecement
+    );
+  }
+};
 
-      UI.addSongsToList(song);
+const checkUser = (isLogged, noUserNvabar, navbarWithUser) => {
+  if (isLogged) {
+    navbarWithUser(JSON.parse(localStorage.getItem("actualUser")));
+  } else {
+    noUserNvabar();
+  }
+};
 
-      Store.addSongToLS(song);
-    });
+const logOutUserFn = () => {
+  localStorage.removeItem("actualUser");
+  window.location.href = "index.html";
+};
+
+document.addEventListener("DOMContentLoaded", () => {
+  const isUser = JSON.parse(localStorage.getItem("actualUser"));
+  checkUser(isUser, noUserNvabar, navbarWithUser);
+});
+
